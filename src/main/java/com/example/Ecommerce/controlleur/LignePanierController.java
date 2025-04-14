@@ -4,7 +4,7 @@ import com.example.Ecommerce.Entities.LignePanier;
 import com.example.Ecommerce.Service.LignePanierServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/ligne-panier")
 public class LignePanierController {

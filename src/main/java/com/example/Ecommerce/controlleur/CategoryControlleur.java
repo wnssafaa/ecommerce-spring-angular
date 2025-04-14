@@ -5,7 +5,7 @@ import com.example.Ecommerce.Service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/Category")  // Préfixe pour toutes les routes liées aux catégories
 public class CategoryControlleur {
@@ -31,7 +31,7 @@ public class CategoryControlleur {
 
     // Supprimer une catégorie par ID
     @DeleteMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable("id") int id) {
+    public String deleteCategory(@PathVariable("id") long id) {
         return service.DeleteCategory(id); // Supprime la catégorie via le service en utilisant l'ID
     }
 

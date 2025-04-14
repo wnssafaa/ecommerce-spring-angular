@@ -3,7 +3,9 @@ package com.example.Ecommerce.Service;
 import com.example.Ecommerce.Entities.Categorie;
 import com.example.Ecommerce.Entities.Produit;
 import com.example.Ecommerce.Repository.CategorieRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,14 +24,17 @@ public class CategoryService implements CategoryServiceImp {
     }
 
 
-    @Override
-    public String DeleteCategory(int id) {
-        Optional<Categorie> category = categoryRepository.findById((long) id);
-        if (category.isPresent()) {
-            categoryRepository.deleteById((long) id);
-            return "Category deleted successfully";
-        } else {
-            return "Category not found";
+    // Dans CategoryService.java
+    public String DeleteCategory(long id) {
+        Optional<Categorie> categorie = categoryRepository.findById(id);
+        if(categorie.isEmpty()) {
+            throw new EntityNotFoundException("Catégorie introuvable avec ID : " + id);
+        }
+        try {
+            categoryRepository.deleteById(id);
+            return "Catégorie supprimée avec succès";
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Erreur lors de la suppression : " + e.getRootCause().getMessage());
         }
     }
 
