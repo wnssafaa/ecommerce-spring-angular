@@ -1,0 +1,92 @@
+
+  
+  <div class="home-container">
+    <!-- État de chargement -->
+    <mat-progress-spinner 
+      *ngIf="isLoading"
+      mode="indeterminate"
+      diameter="50"
+      color="primary">
+    </mat-progress-spinner>
+  
+    <!-- Message d'erreur -->
+    <mat-card *ngIf="errorMessage" class="error-message">
+      <mat-icon>error_outline</mat-icon>
+      {{ errorMessage }}
+    </mat-card>
+  
+    <!-- Contenu principal -->
+    <div *ngIf="!isLoading && !errorMessage">
+      <mat-card class="welcome-card">
+        <mat-card-header>
+          <mat-card-title>Bienvenue sur TeachMatch Store 🛍️</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Découvrez nos meilleures ressources pédagogiques et outils d'apprentissage</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" routerLink="/produits">
+            Voir tous les produits
+          </button>
+        </mat-card-actions>
+      </mat-card>
+  
+      <!-- Section produits -->
+      <div class="product-section">
+        <mat-grid-list [cols]="isLargeScreen ? 3 : 1" rowHeight="400px" gutterSize="16px">
+          <ng-container *ngIf="produits?.length && produits.length > 0; else noProducts">
+            <mat-grid-tile *ngFor="let produit of produits">
+              <mat-card class="product-card">
+                <mat-card-header>
+                  <mat-card-title>{{ produit.nom }}</mat-card-title>
+                  <mat-card-subtitle *ngIf="produit.categorieId">
+                    Catégorie #{{ produit.categorieId }}
+                  </mat-card-subtitle>
+                </mat-card-header>
+                
+                <img mat-card-image 
+                    
+                     alt="{{ produit.nom }}"
+                     class="product-image">
+  
+                <mat-card-content>
+                  <p class="description">{{ produit.description }}</p>
+                  
+                  <div class="price-stock">
+                    <div class="price">
+                      <mat-icon>euro_symbol</mat-icon>
+                      {{ produit.prix | currency:'EUR':'symbol':'1.2-2' }}
+                    </div>
+                    <div class="stock" [class.low-stock]="produit.quantite <= 5">
+                      <mat-icon>inventory_2</mat-icon>
+                      {{ produit.quantite }} en stock
+                    </div>
+                  </div>
+                </mat-card-content>
+  
+                <mat-card-actions align="end">
+                  <button mat-raised-button 
+                          color="primary" 
+                          [disabled]="produit.quantite === 0">
+                    <mat-icon>add_shopping_cart</mat-icon>
+                    Ajouter
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </mat-grid-tile>
+          </ng-container>
+  
+          <ng-template #noProducts>
+            <mat-grid-tile [colspan]="isLargeScreen ? 3 : 1">
+              <mat-card class="empty-state">
+                <mat-card-content>
+                  <mat-icon class="empty-icon">production_quantity_limits</mat-icon>
+                  <p>Aucun produit disponible actuellement</p>
+                </mat-card-content>
+              </mat-card>
+            </mat-grid-tile>
+          </ng-template>
+        </mat-grid-list>
+      </div>
+    </div>
+  </div>
