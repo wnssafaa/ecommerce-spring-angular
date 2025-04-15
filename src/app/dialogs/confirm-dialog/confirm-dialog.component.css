@@ -1,0 +1,86 @@
+/* Style de base pour les deux boutons */
+button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 20px;
+    padding: 8px 24px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Bouton Annuler */
+  button[mat-button] {
+    border: 1px solid #e0e0e0;
+    color: #757575;
+    background-color: #ffffff;
+  }
+  
+  /* Hover Annuler */
+  button[mat-button]:hover {
+    background-color: #f5f5f5;
+    border-color: #bdbdbd;
+    transform: translateY(-1px);
+  }
+  
+  /* Bouton Confirmer */
+  button[mat-raised-button][color='warn'] {
+    background: linear-gradient(135deg, #ff5252, #e53935);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
+  }
+  
+  /* Hover Confirmer */
+  button[mat-raised-button][color='warn']:hover {
+    background: linear-gradient(135deg, #e53935, #c62828);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Effet au clic */
+  button:active {
+    transform: translateY(1px);
+    transition: none;
+  }
+  
+  /* Focus states */
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.3);
+  }
+  
+  /* Version mobile */
+  @media (max-width: 600px) {
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 4px 0;
+    }
+    
+    .mat-dialog-actions {
+      flex-direction: column;
+    }
+  }
+  
+  /* Optionnel : Ajouter une icône */
+  button[mat-raised-button][color='warn']::after {
+    content: '✓';
+    margin-left: 8px;
+    font-weight: bold;
+  }
+  
+  /* Optionnel : Animation de chargement */
+  .loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 8px;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }

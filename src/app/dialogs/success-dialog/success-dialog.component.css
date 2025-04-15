@@ -1,0 +1,19 @@
+.success-dialog {
+    text-align: center;
+    padding: 24px;
+    min-width: 300px;
+  }
+  mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+    color: #4CAF50;
+  }
+  h2 {
+    color: #2e7d32;
+    margin: 16px 0;
+  }
+  p {
+    color: #616161;
+    margin-bottom: 24px;
+  }

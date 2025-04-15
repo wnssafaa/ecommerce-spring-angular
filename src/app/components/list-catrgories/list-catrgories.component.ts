@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 @Component({
   selector: 'app-list-catrgories',
   imports: [
@@ -36,8 +38,10 @@ export class ListCatrgoriesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
-    private dialog: MatDialog,
-    private categorieService: CategorieService
+    private router: Router,
+    private route: ActivatedRoute,
+    private categorieService: CategorieService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -69,20 +73,28 @@ export class ListCatrgoriesComponent implements OnInit {
       this.dataSource.filter = value?.trim().toLowerCase() || '';
     });
   }
-
   deleteCategory(id: number): void {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')) {
-      this.categorieService.deleteCategory(id).subscribe({
-        next: () => {
-          this.dataSource.data = this.dataSource.data.filter(cat => cat.id !== id);
-        },
-        error: (err: any) => {
-          this.errorMessage = 'Échec de la suppression';
-          console.error(err);
-        }
-      });
-    }
-  }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirmation de suppression',
+        message: 'Êtes-vous sûr de vouloir supprimer cette catégorie ?'
+      },
+      width: '500px'
+    });
+  
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.categorieService.deleteCategory(id).subscribe({
+          next: () => {
+            this.dataSource.data = this.dataSource.data.filter(cat => cat.id !== id);
+          },
+          error: (err) => {
+            this.errorMessage = 'Échec de la suppression';
+            console.error(err);
+          }
+        });
+      }
+    });}
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -90,10 +102,11 @@ export class ListCatrgoriesComponent implements OnInit {
   }
 
   openEditDialog(categorie: Categorie): void {
-    // Implémentation du dialogue d'édition
+    this.router.navigate(['../categorie', categorie.id], { relativeTo: this.route });
   }
 
   openAddDialog(): void {
-    // Implémentation du dialogue d'ajout
+    this.router.navigate(['../categorie',]);
   }
+  
 }
