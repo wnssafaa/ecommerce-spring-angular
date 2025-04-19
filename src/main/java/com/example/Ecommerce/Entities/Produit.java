@@ -1,9 +1,7 @@
 package com.example.Ecommerce.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
 @Entity
 public class Produit {
     @Id
@@ -12,6 +10,27 @@ public class Produit {
     private String nom;
     private double prix;
     private int quantite;
+    @Column(name = "image_url")
+    private String imageUrl;
+    public Produit() {
+
+    }
+    public Produit( String nom, double prix, int quantite, String imageUrl, Categorie categorie) {
+
+        this.nom = nom;
+        this.prix = prix;
+        this.quantite = quantite;
+        this.imageUrl = imageUrl;
+        this.categorie = categorie;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     @ManyToOne
     private Categorie categorie;
