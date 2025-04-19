@@ -10,6 +10,7 @@ export interface Produit {
   quantite: number;
   // imageUrl?: string;
   categorieId?: number;
+  imageUrl?: string;
 }
 
 @Injectable({
